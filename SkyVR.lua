@@ -229,6 +229,7 @@ end
 
 do
  if replicatesignal then
+ replicatesignal(plr.Kill)
         replicatesignal(plr.ConnectDiedSignalBackend)
         task.wait(Players.RespawnTime - 0.1)
         else
