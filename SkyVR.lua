@@ -127,6 +127,7 @@ if getgenv().fullbody then
 	end)
 	return
 end
+local Players = game.Players
 local plr = game.Players.LocalPlayer
 local input = game:GetService("UserInputService")
 
@@ -227,15 +228,23 @@ end
 
 
 do
-	for i,v in ipairs(plr.Character.HumanoidRootPart:GetChildren()) do
+ if replicatesignal then
+        replicatesignal(plr.ConnectDiedSignalBackend)
+        task.wait(Players.RespawnTime - 0.1)
+        else
+        for i,v in ipairs(plr.Character.HumanoidRootPart:GetChildren()) do
 		if v:IsA("Sound") then
 			v.Volume = 0
 		end
 	end
+	if 
 	if plr.Character:FindFirstChild("Head") then
 		plr.Character.Head:Destroy()
 	end
 	plr.Character.Humanoid.Health = 0
+
+    end
+	
 	game:GetService("RunService").PostSimulation:connect(function()
 		for i,v in ipairs(game:GetService("Players").LocalPlayer.Character:GetDescendants()) do
 			if v:IsA("BasePart") and v.Name ~="HumanoidRootPart" then 
@@ -260,12 +269,18 @@ do
 		
 		task.wait(0.25)	
 		continueTping = false
+         if replicatesignal then
+        replicatesignal(plr.ConnectDiedSignalBackend)
+        task.wait(Players.RespawnTime - 0.1)
+        else
 		for i,v in ipairs(hrp:GetChildren()) do
 			if v:IsA("Sound") then
 				v.Volume = 0
 			end
 		end
+
 		char.Humanoid.Health = 0
+        end
 
 		FEScript(char)
 	end)
